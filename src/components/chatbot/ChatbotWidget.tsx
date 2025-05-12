@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, type ChangeEvent, type FormEvent, useRef, useEffect } from 'react';
@@ -15,8 +14,16 @@ const ChatbotWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const { toast } = useToast();
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  const initialGreetingMessage: Message = {
+    id: Date.now().toString() + '-greeting',
+    text: "Hello! I'm JavaPrepBot. How can I help you with Java today?",
+    sender: 'bot',
+    timestamp: new Date(),
+  };
 
   useEffect(() => {
     if (isOpen && messages.length > 0) {
@@ -27,7 +34,12 @@ const ChatbotWidget = () => {
     }
   }, [messages, isOpen]);
 
-  const toggleChat = () => setIsOpen(!isOpen);
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+    if (isFullScreen && isOpen) { // If closing while in full screen, exit full screen
+      setIsFullScreen(false);
+    }
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -76,26 +88,35 @@ const ChatbotWidget = () => {
   };
   
   useEffect(() => {
-    // Add initial greeting message when chat opens for the first time or if messages are empty
     if (isOpen && messages.length === 0) {
-      setMessages([
-        {
-          id: Date.now().toString() + '-greeting',
-          text: "Hello! I'm JavaPrepBot. How can I help you with Java today?",
-          sender: 'bot',
-          timestamp: new Date(),
-        }
-      ]);
+      setMessages([initialGreetingMessage]);
     }
-  }, [isOpen]);
+  }, [isOpen]); // Removed messages.length from dependencies to avoid re-triggering on message send
 
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
+  const handleNewChat = () => {
+    setMessages([
+      {
+        ...initialGreetingMessage,
+        id: Date.now().toString() + '-greeting-new', // Ensure unique ID for new greeting
+        timestamp: new Date(), // Update timestamp for new greeting
+      }
+    ]);
+    setInputValue('');
+    setIsLoading(false);
+    // Optionally, exit full screen on new chat:
+    // if (isFullScreen) setIsFullScreen(false); 
+  };
 
   return (
     <>
       <Button
         onClick={toggleChat}
         className={cn(
-          "fixed bottom-4 right-4 md:bottom-6 md:right-6 rounded-full h-14 w-14 p-0 shadow-lg z-50 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110",
+          "fixed bottom-4 right-4 md:bottom-6 md:right-6 rounded-full h-14 w-14 p-0 shadow-lg z-[60] flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110", // Increased z-index
           isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90"
         )}
         aria-label={isOpen ? "Close chat" : "Open chat"}
@@ -111,6 +132,9 @@ const ChatbotWidget = () => {
           onClose={toggleChat}
           isLoading={isLoading}
           chatContainerRef={chatContainerRef}
+          isFullScreen={isFullScreen}
+          onToggleFullScreen={toggleFullScreen}
+          onNewChat={handleNewChat}
         />
       )}
     </>

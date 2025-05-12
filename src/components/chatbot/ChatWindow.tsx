@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { FC, ChangeEvent, FormEvent } from 'react';
@@ -6,10 +5,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Send, X, Bot } from 'lucide-react';
+import { Send, X, Bot, Expand, Shrink, RefreshCcw } from 'lucide-react';
 import ChatMessage, { type Message } from './ChatMessage';
 import { Skeleton } from '../ui/skeleton';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'; // Added import for Avatar and AvatarFallback
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
+
 
 interface ChatWindowProps {
   messages: Message[];
@@ -19,6 +21,9 @@ interface ChatWindowProps {
   onClose: () => void;
   isLoading: boolean;
   chatContainerRef: React.RefObject<HTMLDivElement>;
+  isFullScreen: boolean;
+  onToggleFullScreen: () => void;
+  onNewChat: () => void;
 }
 
 const ChatWindow: FC<ChatWindowProps> = ({
@@ -29,33 +34,80 @@ const ChatWindow: FC<ChatWindowProps> = ({
   onClose,
   isLoading,
   chatContainerRef,
+  isFullScreen,
+  onToggleFullScreen,
+  onNewChat,
 }) => {
   return (
-    <Card className="fixed bottom-20 right-4 md:right-6 w-[calc(100%-2rem)] sm:w-96 h-[70vh] max-h-[500px] flex flex-col shadow-xl rounded-lg border bg-background z-50">
-      <CardHeader className="flex flex-row items-center justify-between p-4 border-b bg-muted/50"> {/* Added subtle background */}
+    <Card className={cn(
+      "fixed shadow-xl rounded-lg border bg-background z-50 flex flex-col",
+      isFullScreen
+        ? "inset-0 w-full h-full max-h-full rounded-none"
+        : "bottom-20 right-4 md:right-6 w-[calc(100%-2rem)] sm:w-96 h-[70vh] max-h-[500px]"
+    )}>
+      <CardHeader className="flex flex-row items-center justify-between p-3 border-b bg-muted/50">
         <div className="flex items-center space-x-2">
           <Bot className="h-6 w-6 text-primary" />
           <CardTitle className="text-lg font-semibold">JavaPrep Assistant</CardTitle>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
-          <X className="h-5 w-5" />
-          <span className="sr-only">Close chat</span>
-        </Button>
+        <div className="flex items-center space-x-1">
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={onNewChat} className="h-8 w-8">
+                  <RefreshCcw className="h-4 w-4" />
+                  <span className="sr-only">New Chat</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>New Chat</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={onToggleFullScreen} className="h-8 w-8">
+                  {isFullScreen ? <Shrink className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
+                  <span className="sr-only">{isFullScreen ? 'Exit Full Screen' : 'Full Screen'}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isFullScreen ? 'Exit Full Screen' : 'Full Screen'}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">Close chat</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Close</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </CardHeader>
       <CardContent className="flex-1 p-0 overflow-hidden">
         <ScrollArea className="h-full p-4">
-          <div ref={chatContainerRef} className="space-y-1"> {/* Reduced space-y slightly due to message mb change */}
+          <div ref={chatContainerRef} className="space-y-1">
             {messages.map((msg) => (
               <ChatMessage key={msg.id} message={msg} />
             ))}
             {isLoading && (
-               <div className="flex items-end space-x-2 mb-4 justify-start"> {/* Matched ChatMessage mb */}
-                 <Avatar className="h-8 w-8"> {/* Used Avatar for consistency */}
+               <div className="flex items-end space-x-2 mb-4 justify-start">
+                 <Avatar className="h-8 w-8">
                     <AvatarFallback>
                         <Bot className="h-5 w-5 text-primary" />
                     </AvatarFallback>
                  </Avatar>
-                 <div className="px-4 py-3 rounded-t-xl rounded-r-xl max-w-xs sm:max-w-md md:max-w-lg bg-card text-card-foreground border shadow-md"> {/* Matched bot bubble style */}
+                 <div className="px-4 py-3 rounded-t-xl rounded-r-xl max-w-xs sm:max-w-md md:max-w-lg bg-card text-card-foreground border shadow-md">
                     <Skeleton className="h-4 w-24 mb-1" />
                     <Skeleton className="h-3 w-16" />
                  </div>
