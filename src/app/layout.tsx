@@ -16,6 +16,7 @@ import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { JavaPrepLogo } from '@/components/icons';
 import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
+import ChatbotWidget from '@/components/chatbot/ChatbotWidget'; // Added ChatbotWidget import
 
 const geistSans = GeistSans;
 // const geistMono = GeistMono; // Removed as per previous fix
@@ -59,6 +60,7 @@ export default function RootLayout({
           </SidebarInset>
         </SidebarProvider>
         <Toaster />
+        <ChatbotWidget /> {/* Added ChatbotWidget here */}
       </body>
     </html>
   );
