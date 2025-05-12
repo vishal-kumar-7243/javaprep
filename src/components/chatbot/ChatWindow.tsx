@@ -9,6 +9,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Send, X, Bot } from 'lucide-react';
 import ChatMessage, { type Message } from './ChatMessage';
 import { Skeleton } from '../ui/skeleton';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'; // Added import for Avatar and AvatarFallback
 
 interface ChatWindowProps {
   messages: Message[];
