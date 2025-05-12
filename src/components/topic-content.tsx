@@ -14,6 +14,82 @@ interface TopicContentProps {
   topic: Topic;
 }
 
+// Helper function to format summary text to HTML for better prose styling
+function formatSummaryToHtml(text: string | null): string {
+  if (!text) return '<p>No summary available.</p>';
+
+  // Convert **text** to <strong>text</strong>
+  let processedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  const lines = processedText.split('\n');
+  let htmlOutput = '';
+  let inListType: 'ul' | 'ol' | null = null;
+  let currentParagraph = '';
+
+  const flushParagraph = () => {
+    if (currentParagraph.trim()) {
+      htmlOutput += `<p>${currentParagraph.trim()}</p>\n`;
+    }
+    currentParagraph = '';
+  };
+
+  const closeList = () => {
+    if (inListType === 'ul') htmlOutput += `</ul>\n`;
+    if (inListType === 'ol') htmlOutput += `</ol>\n`;
+    inListType = null;
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+
+    const isUlItem = line.match(/^[\t ]*[-*]\s+(.*)/);
+    const isOlItem = line.match(/^[\t ]*\d+\.\s+(.*)/);
+
+    if (isUlItem) {
+      flushParagraph(); // End current paragraph before starting a list
+      if (inListType === 'ol') closeList();
+      if (inListType !== 'ul') {
+        htmlOutput += `<ul>\n`;
+        inListType = 'ul';
+      }
+      htmlOutput += `  <li>${isUlItem[1]}</li>\n`;
+    } else if (isOlItem) {
+      flushParagraph(); // End current paragraph before starting a list
+      if (inListType === 'ul') closeList();
+      if (inListType !== 'ol') {
+        htmlOutput += `<ol>\n`;
+        inListType = 'ol';
+      }
+      htmlOutput += `  <li>${isOlItem[1]}</li>\n`;
+    } else {
+      // Not a list item
+      closeList(); // Close any open list if we're moving to non-list content
+
+      if (line.trim() === '') { // Blank line signifies a paragraph break
+        flushParagraph();
+      } else {
+        if (currentParagraph) {
+          currentParagraph += '<br />' + line; // Add as part of current paragraph with a line break
+        } else {
+          currentParagraph = line; // Start a new paragraph
+        }
+      }
+    }
+  }
+  
+  flushParagraph(); // Flush any remaining paragraph content
+  closeList(); // Close any remaining open list
+
+  // Remove multiple consecutive <br /> tags within paragraphs that might result from this logic
+  htmlOutput = htmlOutput.replace(/<p>(\s*<br\s*\/?>\s*)+/g, '<p>');
+  htmlOutput = htmlOutput.replace(/(<br\s*\/?>\s*)+<\/p>/g, '</p>');
+  htmlOutput = htmlOutput.replace(/(<br\s*\/?>\s*){2,}/g, '<br />');
+
+
+  return htmlOutput || '<p>No summary available.</p>'; // Ensure non-empty output
+}
+
+
 export function TopicContent({ topic }: TopicContentProps) {
   const [summary, setSummary] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -74,22 +150,12 @@ export function TopicContent({ topic }: TopicContentProps) {
               <Skeleton className="h-4 w-full" />
             </div>
           ) : (
-            (() => {
-              let htmlSummary = 'No summary available.';
-              if (summary) {
-                htmlSummary = summary
-                  // Replace **Word:** with <strong>Word</strong>
-                  .replace(/\*\*(.*?):\*\*/g, '<strong>$1</strong>')
-                  // Replace newlines with <br />
-                  .replace(/\n/g, '<br />');
-              }
-              return <div dangerouslySetInnerHTML={{ __html: htmlSummary }} />;
-            })()
+             <div dangerouslySetInnerHTML={{ __html: formatSummaryToHtml(summary) }} />
           )}
         </CardContent>
       </Card>
       
-      {topic.details && !summary?.includes(topic.details) && ( // Show original details if different from summary
+      {topic.details && (!summary || !summary.includes(topic.details)) && ( // Show original details if different from summary or summary is missing
         <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
             <CardTitle className="text-xl">Original Topic Details</CardTitle>
@@ -104,12 +170,12 @@ export function TopicContent({ topic }: TopicContentProps) {
         <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
              <div className="flex items-center space-x-3">
-                <Code2 className="h-6 w-6 text-green-500" />
+                <Code2 className="h-6 w-6 text-success" /> {/* Use success color for code icon */}
                 <CardTitle className="text-xl">Code Example</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
-            <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
+            <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm shadow-inner">
               <code>{topic.codeExample}</code>
             </pre>
           </CardContent>
@@ -120,12 +186,12 @@ export function TopicContent({ topic }: TopicContentProps) {
         <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
             <div className="flex items-center space-x-3">
-                <Terminal className="h-6 w-6 text-blue-500" />
+                <Terminal className="h-6 w-6 text-primary" /> {/* Use primary color for terminal icon */}
                 <CardTitle className="text-xl">Output</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
-            <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
+            <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm shadow-inner">
               <code>{topic.outputExample}</code>
             </pre>
           </CardContent>
@@ -138,7 +204,7 @@ export function TopicContent({ topic }: TopicContentProps) {
             <CardTitle className="text-xl">Visual Aid</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="relative w-full h-64 md:h-96 rounded-md overflow-hidden border">
+            <div className="relative w-full h-64 md:h-96 rounded-md overflow-hidden border shadow-inner">
               <Image
                 src={topic.image}
                 alt={topic.name || 'Visual Aid'}
