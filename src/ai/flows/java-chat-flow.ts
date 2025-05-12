@@ -13,6 +13,7 @@ import {z} from 'zod';
 
 const JavaChatInputSchema = z.object({
   userInput: z.string().describe('The message sent by the user.'),
+  responsePreference: z.string().optional().describe('User preference for the style or format of the bot\'s response (e.g., "explain simply", "provide a code example", "bullet points").'),
   // Optional: Add chatHistory here in the future if needed
   // chatHistory: z.array(z.object({
   //   role: z.enum(['user', 'model']),
@@ -45,6 +46,10 @@ You should be able to:
 - If a question is outside your scope or too complex, politely state that you cannot answer or suggest consulting their course materials.
 - Keep responses helpful and focused on Java education.
 
+{{#if responsePreference}}
+The user has expressed a preference for the response: "{{{responsePreference}}}". Please try to adhere to this preference in your answer. For example, if they ask for a "simple explanation", use very basic terms. If they ask for a "code example", prioritize providing one if relevant. If they ask for "bullet points", structure your answer accordingly.
+{{/if}}
+
 User's question: {{{userInput}}}
 `,
 });
@@ -70,3 +75,4 @@ const javaChatGenkitFlow = ai.defineFlow(
     return output;
   }
 );
+

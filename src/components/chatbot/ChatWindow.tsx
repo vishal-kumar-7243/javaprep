@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { FC, ChangeEvent, FormEvent } from 'react';
@@ -24,6 +25,8 @@ interface ChatWindowProps {
   isFullScreen: boolean;
   onToggleFullScreen: () => void;
   onNewChat: () => void;
+  responsePreferenceValue: string;
+  onResponsePreferenceChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ChatWindow: FC<ChatWindowProps> = ({
@@ -37,6 +40,8 @@ const ChatWindow: FC<ChatWindowProps> = ({
   isFullScreen,
   onToggleFullScreen,
   onNewChat,
+  responsePreferenceValue,
+  onResponsePreferenceChange,
 }) => {
   return (
     <Card className={cn(
@@ -116,7 +121,16 @@ const ChatWindow: FC<ChatWindowProps> = ({
           </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="p-3 border-t">
+      <CardFooter className="p-3 border-t flex flex-col gap-2">
+        <Input
+            type="text"
+            placeholder="Response style (e.g., 'explain simply', 'code example')"
+            value={responsePreferenceValue}
+            onChange={onResponsePreferenceChange}
+            disabled={isLoading}
+            className="w-full text-xs h-8"
+            aria-label="Response style preference"
+        />
         <form onSubmit={onSendMessage} className="flex w-full space-x-2">
           <Input
             type="text"
@@ -138,3 +152,4 @@ const ChatWindow: FC<ChatWindowProps> = ({
 };
 
 export default ChatWindow;
+

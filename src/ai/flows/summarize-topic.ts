@@ -1,7 +1,8 @@
+
 // src/ai/flows/summarize-topic.ts
 'use server';
 /**
- * @fileOverview Summarizes a detailed topic into a 10-mark answer format.
+ * @fileOverview Summarizes a detailed topic.
  *
  * - summarizeTopic - A function that summarizes the topic.
  * - SummarizeTopicInput - The input type for the summarizeTopic function.
@@ -15,11 +16,12 @@ const SummarizeTopicInputSchema = z.object({
   topicDetails: z
     .string()
     .describe('Detailed information about the topic to be summarized.'),
+  summaryFormatPreference: z.string().optional().describe('User preference for the summary format (e.g., "bullet points", "short paragraph", "explain concepts"). Default is "10-mark answer format".')
 });
 export type SummarizeTopicInput = z.infer<typeof SummarizeTopicInputSchema>;
 
 const SummarizeTopicOutputSchema = z.object({
-  summary: z.string().describe('A summary of the topic in a 10-mark answer format.'),
+  summary: z.string().describe('A summary of the topic based on the requested format.'),
 });
 export type SummarizeTopicOutput = z.infer<typeof SummarizeTopicOutputSchema>;
 
@@ -33,8 +35,13 @@ const prompt = ai.definePrompt({
   output: {schema: SummarizeTopicOutputSchema},
   prompt: `You are an expert Java teacher who can condense detailed information into key concepts for exam preparation.
 
-  Summarize the following topic details into a 10-mark answer format, using simple language and highlighting key concepts:
+  {{#if summaryFormatPreference}}
+  Summarize the following topic details according to this preference: "{{{summaryFormatPreference}}}". Ensure the output is clear and directly addresses the preference. For example, if "bullet points" is requested, provide a bulleted list. If "ELI5" is requested, explain in very simple terms.
+  {{else}}
+  Summarize the following topic details into a 10-mark answer format, using simple language and highlighting key concepts.
+  {{/if}}
 
+  Topic Details:
   {{{topicDetails}}}`,
 });
 
@@ -49,3 +56,4 @@ const summarizeTopicFlow = ai.defineFlow(
     return output!;
   }
 );
+

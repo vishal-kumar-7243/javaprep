@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, type ChangeEvent, type FormEvent, useRef, useEffect } from 'react';
@@ -13,6 +14,7 @@ const ChatbotWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [responsePreference, setResponsePreference] = useState(''); // New state for response preference
   const [isLoading, setIsLoading] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const { toast } = useToast();
@@ -20,7 +22,7 @@ const ChatbotWidget = () => {
 
   const initialGreetingMessage: Message = {
     id: Date.now().toString() + '-greeting',
-    text: "Hello! I'm JavaPrepBot. How can I help you with Java today?",
+    text: "Hello! I'm JavaPrepBot. How can I help you with Java today? You can also specify a response style below (e.g., 'explain simply', 'give code example').",
     sender: 'bot',
     timestamp: new Date(),
   };
@@ -45,6 +47,10 @@ const ChatbotWidget = () => {
     setInputValue(e.target.value);
   };
 
+  const handleResponsePreferenceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setResponsePreference(e.target.value);
+  };
+
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -60,7 +66,7 @@ const ChatbotWidget = () => {
     setIsLoading(true);
 
     try {
-      const response = await javaChatFlow({ userInput: userMessage.text });
+      const response = await javaChatFlow({ userInput: userMessage.text, responsePreference });
       const botMessage: Message = {
         id: Date.now().toString() + '-bot',
         text: response.botResponse,
@@ -91,7 +97,7 @@ const ChatbotWidget = () => {
     if (isOpen && messages.length === 0) {
       setMessages([initialGreetingMessage]);
     }
-  }, [isOpen]); // Removed messages.length from dependencies to avoid re-triggering on message send
+  }, [isOpen]);
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -101,14 +107,13 @@ const ChatbotWidget = () => {
     setMessages([
       {
         ...initialGreetingMessage,
-        id: Date.now().toString() + '-greeting-new', // Ensure unique ID for new greeting
-        timestamp: new Date(), // Update timestamp for new greeting
+        id: Date.now().toString() + '-greeting-new', 
+        timestamp: new Date(), 
       }
     ]);
     setInputValue('');
+    setResponsePreference(''); // Reset preference on new chat
     setIsLoading(false);
-    // Optionally, exit full screen on new chat:
-    // if (isFullScreen) setIsFullScreen(false); 
   };
 
   return (
@@ -116,7 +121,7 @@ const ChatbotWidget = () => {
       <Button
         onClick={toggleChat}
         className={cn(
-          "fixed bottom-4 right-4 md:bottom-6 md:right-6 rounded-full h-14 w-14 p-0 shadow-lg z-[60] flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110", // Increased z-index
+          "fixed bottom-4 right-4 md:bottom-6 md:right-6 rounded-full h-14 w-14 p-0 shadow-lg z-[60] flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110", 
           isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90"
         )}
         aria-label={isOpen ? "Close chat" : "Open chat"}
@@ -135,6 +140,8 @@ const ChatbotWidget = () => {
           isFullScreen={isFullScreen}
           onToggleFullScreen={toggleFullScreen}
           onNewChat={handleNewChat}
+          responsePreferenceValue={responsePreference}
+          onResponsePreferenceChange={handleResponsePreferenceChange}
         />
       )}
     </>
@@ -142,3 +149,4 @@ const ChatbotWidget = () => {
 };
 
 export default ChatbotWidget;
+
