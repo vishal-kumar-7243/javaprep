@@ -31,48 +31,8 @@ export default function TopicPage({ params }: TopicPageProps) {
     notFound();
   }
 
-  // Example code and image (replace with actual data if available)
-  if (topic.id === "simple-java-program") {
-    topic.codeExample = 
-`public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, Java World!");
-    }
-}`;
-    topic.outputExample = "Hello, Java World!";
-    topic.image = "https://picsum.photos/800/400";
-    topic.imageHint = "java ide";
-  }
-  if (topic.id === "arrays") {
-     topic.codeExample = 
-`public class ArrayExample {
-    public static void main(String[] args) {
-        // Declare and initialize an array of integers
-        int[] numbers = {10, 20, 30, 40, 50};
-
-        // Access and print array elements
-        System.out.println("First element: " + numbers[0]);
-        System.out.println("Third element: " + numbers[2]);
-
-        // Iterate through the array
-        System.out.println("All elements:");
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.print(numbers[i] + " ");
-        }
-        System.out.println(); // New line
-    }
-}`;
-    topic.outputExample = 
-`First element: 10
-Third element: 30
-All elements:
-10 20 30 40 50`;
-  }
-   if (topic.id === "control-statements") {
-    topic.image = "https://picsum.photos/800/450";
-    topic.imageHint = "flow chart";
-   }
-
+  // Examples are now primarily sourced from syllabus-data.ts
+  // The TopicContent component will use topic.codeExample, topic.outputExample, topic.image etc.
 
   return (
     <div className="space-y-6">
@@ -105,3 +65,4 @@ All elements:
     </div>
   );
 }
+
