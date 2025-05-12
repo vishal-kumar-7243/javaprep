@@ -8,10 +8,10 @@ body {
 
 @layer base {
   :root {
-    --background: 220 30% 98%; /* Light: Very Light Cool Grey */
+    --background: 0 0% 95%; /* Light: User's #f2f2f2 (Light Grey) */
     --foreground: 220 25% 10%; /* Light: Dark Cool Grey/Near Black */
 
-    --muted: 220 25% 94%; /* Light: Light Cool Grey */
+    --muted: 0 0% 90%; /* Light: Slightly darker grey than background */
     --muted-foreground: 220 15% 45%; /* Light: Medium Cool Grey */
 
     --popover: 0 0% 100%; /* Light: White */
@@ -20,85 +20,85 @@ body {
     --card: 0 0% 100%; /* Light: White */
     --card-foreground: 220 25% 10%; /* Light: Dark Cool Grey/Near Black */
 
-    --border: 220 20% 88%; /* Light: Cool Grey Border */
-    --input: 220 20% 88%; /* Light: Cool Grey Border */
+    --border: 0 0% 85%; /* Light: Light Grey Border */
+    --input: 0 0% 85%; /* Light: Light Grey Border */
 
-    --primary: 240 60% 55%; /* Light: Strong Blue/Purple */
+    --primary: 207 61% 53%; /* Light: Java Blue (User's #3498db) */
     --primary-foreground: 0 0% 100%; /* Light: White */
 
-    --secondary: 220 30% 90%; /* Light: Very Light Muted Blue */
-    --secondary-foreground: 220 20% 30%; /* Light: Dark Muted Blue */
+    --secondary: 207 30% 92%; /* Light: Very Light Muted Java Blue */
+    --secondary-foreground: 207 50% 30%; /* Light: Dark Muted Java Blue */
 
-    --accent: 270 65% 60%; /* Light: Vibrant Purple/Magenta */
-    --accent-foreground: 0 0% 100%; /* Light: White */
+    --accent: 36 95% 55%; /* Light: Java Orange (#F89820) */
+    --accent-foreground: 20 50% 20%; /* Light: Dark Brown for contrast on Orange */
 
     --destructive: 0 80% 60%; /* Light: Standard Red */
     --destructive-foreground: 0 0% 100%; /* Light: White */
 
-    --ring: 240 60% 55%; /* Light: Primary color for rings */
+    --ring: 207 61% 53%; /* Light: Primary color for rings */
     --radius: 0.5rem;
 
-    --chart-1: 210 70% 50%; /* Light: Strong Blue */
-    --chart-2: 260 60% 55%; /* Light: Deep Purple */
-    --chart-3: 180 50% 40%; /* Light: Dark Teal */
-    --chart-4: 230 70% 60%; /* Light: Medium Blue/Purple */
-    --chart-5: 300 60% 50%; /* Light: Dark Magenta */
+    --chart-1: 207 70% 50%; /* Light: Primary Blue */
+    --chart-2: 36 90% 60%;  /* Light: Accent Orange */
+    --chart-3: 207 50% 70%; /* Light: Lighter Blue */
+    --chart-4: 36 80% 70%;  /* Light: Lighter Orange */
+    --chart-5: 207 60% 30%; /* Light: Darker Blue */
 
     --sidebar-background: 0 0% 100%; /* Light: White sidebar */
     --sidebar-foreground: 220 25% 20%; /* Light: Dark Cool Grey text for sidebar */
-    --sidebar-primary: 240 60% 55%; /* Light: Consistent with main primary */
+    --sidebar-primary: 207 61% 53%; /* Light: Consistent with main primary */
     --sidebar-primary-foreground: 0 0% 100%; /* Light: White */
-    --sidebar-accent: 220 30% 92%; /* Light: Very light accent for hover/active */
-    --sidebar-accent-foreground: 220 20% 25%; /* Light: Darker text on sidebar accent */
-    --sidebar-border: 220 20% 85%; /* Light: Sidebar border */
-    --sidebar-ring: 240 60% 55%; /* Light: Sidebar ring */
+    --sidebar-accent: 207 30% 92%; /* Light: Very light accent for hover/active (matches main secondary) */
+    --sidebar-accent-foreground: 207 50% 30%; /* Light: Darker text on sidebar accent (matches main secondary-foreground) */
+    --sidebar-border: 0 0% 85%; /* Light: Sidebar border (matches main border) */
+    --sidebar-ring: 207 61% 53%; /* Light: Sidebar ring (matches main ring) */
   }
 
   .dark {
-    --background: 225 20% 10%; /* Dark: Deep Indigo/Charcoal */
-    --foreground: 225 15% 90%; /* Dark: Light Bluish Grey */
+    --background: 220 20% 12%; /* Dark: Dark Cool Grey */
+    --foreground: 220 15% 90%; /* Dark: Light Cool Grey */
 
-    --muted: 225 18% 15%; /* Dark: Darker Indigo */
-    --muted-foreground: 225 10% 60%; /* Dark: Greyish Blue */
+    --muted: 220 18% 18%; /* Dark: Slightly lighter than background */
+    --muted-foreground: 220 10% 60%; /* Dark: Medium Cool Grey */
 
-    --popover: 225 20% 8%; /* Dark: Very Dark Indigo, almost black */
-    --popover-foreground: 225 15% 90%; /* Dark: Light Bluish Grey */
+    --popover: 220 20% 10%; /* Dark: Very Dark Cool Grey */
+    --popover-foreground: 220 15% 90%; /* Dark: Light Cool Grey */
 
-    --card: 225 20% 13%; /* Dark: Dark Indigo, slightly lighter than bg */
-    --card-foreground: 225 15% 90%; /* Dark: Light Bluish Grey */
+    --card: 220 20% 15%; /* Dark: Dark Cool Grey, slightly lighter than background */
+    --card-foreground: 220 15% 90%; /* Dark: Light Cool Grey */
 
-    --border: 225 15% 20%; /* Dark: Subtle Border */
-    --input: 225 15% 20%; /* Dark: Subtle Border */
+    --border: 220 15% 25%; /* Dark: Subtle Border */
+    --input: 220 15% 25%; /* Dark: Subtle Border */
 
-    --primary: 240 60% 65%; /* Dark: Vibrant Blue/Purple */
+    --primary: 207 61% 63%; /* Dark: Lighter Java Blue */
     --primary-foreground: 0 0% 100%; /* Dark: White */
 
-    --secondary: 220 30% 25%; /* Dark: Muted Blue/Grey */
-    --secondary-foreground: 220 15% 85%; /* Dark: Light Grey Blue */
+    --secondary: 207 30% 30%; /* Dark: Muted Dark Java Blue */
+    --secondary-foreground: 207 15% 85%; /* Dark: Light Grey Blue */
 
-    --accent: 270 70% 70%; /* Dark: Vibrant Purple/Magenta */
-    --accent-foreground: 0 0% 100%; /* Dark: White */
+    --accent: 36 95% 60%; /* Dark: Lighter Java Orange */
+    --accent-foreground: 20 50% 20%; /* Dark: Dark Brown for contrast on Orange */
 
     --destructive: 0 70% 55%; /* Dark: Vibrant Red */
     --destructive-foreground: 0 0% 100%; /* Dark: White */
 
-    --ring: 240 60% 65%; /* Dark: Primary color for rings */
+    --ring: 207 61% 63%; /* Dark: Primary color for rings */
     
-    --chart-1: 210 70% 60%; /* Dark: Bright Blue */
-    --chart-2: 260 60% 65%; /* Dark: Purple */
-    --chart-3: 180 50% 50%; /* Dark: Teal */
-    --chart-4: 230 70% 70%; /* Dark: Lighter Blue/Purple */
-    --chart-5: 300 60% 60%; /* Dark: Magenta */
+    --chart-1: 207 70% 60%; /* Dark: Primary Blue - Dark mode */
+    --chart-2: 36 90% 65%;  /* Dark: Accent Orange - Dark mode */
+    --chart-3: 207 50% 75%; /* Dark: Lighter Blue - Dark mode */
+    --chart-4: 36 80% 75%;  /* Dark: Lighter Orange - Dark mode */
+    --chart-5: 207 60% 40%; /* Dark: Darker Blue - Dark mode */
 
     /* Sidebar dark theme */
-    --sidebar-background: 225 20% 13%; /* Dark: Same as card or slightly different */
-    --sidebar-foreground: 225 15% 85%; /* Dark: Light Bluish Grey text */
-    --sidebar-primary: 240 60% 65%; /* Dark: Consistent with main primary */
+    --sidebar-background: 220 20% 15%; /* Dark: Same as card */
+    --sidebar-foreground: 220 15% 85%; /* Dark: Light Bluish Grey text */
+    --sidebar-primary: 207 61% 63%; /* Dark: Consistent with main dark primary */
     --sidebar-primary-foreground: 0 0% 100%; /* Dark: White */
-    --sidebar-accent: 225 18% 20%; /* Dark: Subtle accent for hover/active */
-    --sidebar-accent-foreground: 225 15% 95%; /* Dark: Lighter text on sidebar accent */
-    --sidebar-border: 225 15% 25%; /* Dark: Sidebar border */
-    --sidebar-ring: 240 60% 65%; /* Dark: Sidebar ring */
+    --sidebar-accent: 220 18% 22%; /* Dark: Subtle accent for hover/active */
+    --sidebar-accent-foreground: 220 15% 95%; /* Dark: Lighter text on sidebar accent */
+    --sidebar-border: 220 15% 25%; /* Dark: Sidebar border (matches main dark border) */
+    --sidebar-ring: 207 61% 63%; /* Dark: Sidebar ring (matches main dark ring) */
   }
 }
 
