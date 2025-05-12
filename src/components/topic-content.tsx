@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -73,7 +74,17 @@ export function TopicContent({ topic }: TopicContentProps) {
               <Skeleton className="h-4 w-full" />
             </div>
           ) : (
-            <div dangerouslySetInnerHTML={{ __html: summary?.replace(/\n/g, '<br />') || 'No summary available.' }} />
+            (() => {
+              let htmlSummary = 'No summary available.';
+              if (summary) {
+                htmlSummary = summary
+                  // Replace **Word:** with <strong>Word</strong>
+                  .replace(/\*\*(.*?):\*\*/g, '<strong>$1</strong>')
+                  // Replace newlines with <br />
+                  .replace(/\n/g, '<br />');
+              }
+              return <div dangerouslySetInnerHTML={{ __html: htmlSummary }} />;
+            })()
           )}
         </CardContent>
       </Card>
@@ -142,3 +153,4 @@ export function TopicContent({ topic }: TopicContentProps) {
     </div>
   );
 }
+
