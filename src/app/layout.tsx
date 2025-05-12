@@ -54,7 +54,7 @@ export default function RootLayout({
           </Sidebar>
           <SidebarInset className="flex flex-col">
             <Header />
-            <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
+            <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto bg-gradient-to-br from-[hsl(var(--background))] to-[hsl(var(--muted-alpha-light))] dark:to-[hsl(var(--muted-alpha-dark))]">
               {children}
             </main>
           </SidebarInset>

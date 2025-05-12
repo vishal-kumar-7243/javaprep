@@ -13,6 +13,7 @@ body {
 
     --muted: 0 0% 90%; /* Light: Slightly darker grey than background */
     --muted-foreground: 220 15% 45%; /* Light: Medium Cool Grey */
+    --muted-alpha-light: 0 0% 90% / 0.3; /* Muted with alpha for light theme gradients */
 
     --popover: 0 0% 100%; /* Light: White */
     --popover-foreground: 220 25% 10%; /* Light: Dark Cool Grey/Near Black */
@@ -60,6 +61,7 @@ body {
 
     --muted: 220 18% 18%; /* Dark: Slightly lighter than background */
     --muted-foreground: 220 10% 60%; /* Dark: Medium Cool Grey */
+    --muted-alpha-dark: 220 18% 18% / 0.5; /* Muted with alpha for dark theme gradients */
 
     --popover: 220 20% 10%; /* Dark: Very Dark Cool Grey */
     --popover-foreground: 220 15% 90%; /* Dark: Light Cool Grey */
@@ -108,5 +110,11 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .smooth-transition {
+    @apply transition-all duration-300 ease-in-out;
   }
 }

@@ -55,7 +55,7 @@ export function TopicContent({ topic }: TopicContentProps) {
         </Alert>
       )}
 
-      <Card className="shadow-lg">
+      <Card className="shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl">
         <CardHeader>
           <div className="flex items-center space-x-3">
             <Lightbulb className="h-8 w-8 text-primary" />
@@ -90,7 +90,7 @@ export function TopicContent({ topic }: TopicContentProps) {
       </Card>
       
       {topic.details && !summary?.includes(topic.details) && ( // Show original details if different from summary
-        <Card>
+        <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
             <CardTitle className="text-xl">Original Topic Details</CardTitle>
           </CardHeader>
@@ -101,7 +101,7 @@ export function TopicContent({ topic }: TopicContentProps) {
       )}
 
       {topic.codeExample && (
-        <Card>
+        <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
              <div className="flex items-center space-x-3">
                 <Code2 className="h-6 w-6 text-green-500" />
@@ -117,7 +117,7 @@ export function TopicContent({ topic }: TopicContentProps) {
       )}
 
       {topic.outputExample && (
-        <Card>
+        <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
             <div className="flex items-center space-x-3">
                 <Terminal className="h-6 w-6 text-blue-500" />
@@ -133,7 +133,7 @@ export function TopicContent({ topic }: TopicContentProps) {
       )}
 
       {topic.image && (
-        <Card>
+        <Card className="transition-all duration-300 ease-in-out hover:shadow-xl">
           <CardHeader>
             <CardTitle className="text-xl">Visual Aid</CardTitle>
           </CardHeader>
@@ -153,4 +153,3 @@ export function TopicContent({ topic }: TopicContentProps) {
     </div>
   );
 }
-

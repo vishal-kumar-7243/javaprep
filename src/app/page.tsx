@@ -6,8 +6,8 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <section className="text-center py-16 bg-primary/10 rounded-lg shadow-lg">
-        <GraduationCap className="mx-auto h-20 w-20 text-primary mb-6" />
+      <section className="text-center py-16 bg-gradient-to-tr from-primary/20 via-primary/10 to-transparent rounded-lg shadow-xl">
+        <GraduationCap className="mx-auto h-20 w-20 text-primary mb-6 animate-bounce" />
         <h1 className="text-5xl font-bold tracking-tight text-primary">
           Welcome to JavaPrep!
         </h1>
@@ -30,7 +30,7 @@ export default function HomePage() {
           How It Works
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Card className="shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out hover:scale-[1.03]">
             <CardHeader className="items-center">
               <div className="p-3 bg-primary/10 rounded-full mb-3">
                 <BookOpen className="h-8 w-8 text-primary" />
@@ -43,7 +43,7 @@ export default function HomePage() {
               </CardDescription>
             </CardContent>
           </Card>
-          <Card className="shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Card className="shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out hover:scale-[1.03]">
             <CardHeader className="items-center">
                <div className="p-3 bg-primary/10 rounded-full mb-3">
                 <Lightbulb className="h-8 w-8 text-primary" />
@@ -56,7 +56,7 @@ export default function HomePage() {
               </CardDescription>
             </CardContent>
           </Card>
-          <Card className="shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Card className="shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out hover:scale-[1.03]">
             <CardHeader className="items-center">
                <div className="p-3 bg-primary/10 rounded-full mb-3">
                 <GraduationCap className="h-8 w-8 text-primary" />
