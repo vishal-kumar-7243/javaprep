@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
+// import { GeistMono } from 'geist/font/mono'; // Removed as per previous fix for module not found
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
@@ -15,10 +15,10 @@ import { Header } from '@/components/layout/header';
 import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { JavaPrepLogo } from '@/components/icons';
 import Link from 'next/link';
-import { BookOpen } from 'lucide-react'; // Added missing import
+import { BookOpen } from 'lucide-react';
 
 const geistSans = GeistSans;
-const geistMono = GeistMono;
+// const geistMono = GeistMono; // Removed as per previous fix
 
 export const metadata: Metadata = {
   title: 'JavaPrep - Your Java Exam Companion',
@@ -35,16 +35,16 @@ export default function RootLayout({
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
-          geistSans.variable,
-          geistMono.variable
+          geistSans.variable
+          // geistMono.variable // Removed as per previous fix
         )}
       >
         <SidebarProvider defaultOpen>
           <Sidebar collapsible="icon">
             <SidebarHeader>
-               <Link href="/" className="flex items-center gap-2 p-2 mb-2">
+               <Link href="/" className="flex items-center justify-center gap-2 p-3 mb-2 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 transition-colors">
                 <JavaPrepLogo className="hidden group-data-[state=expanded]:block" />
-                <BookOpen className="h-6 w-6 block group-data-[state=expanded]:hidden text-primary" />
+                <BookOpen className="h-6 w-6 block group-data-[state=expanded]:hidden" /> {/* text color will be inherited from Link */}
               </Link>
             </SidebarHeader>
             <SidebarContent>
