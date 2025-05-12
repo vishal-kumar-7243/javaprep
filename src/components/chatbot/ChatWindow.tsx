@@ -31,7 +31,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
 }) => {
   return (
     <Card className="fixed bottom-20 right-4 md:right-6 w-[calc(100%-2rem)] sm:w-96 h-[70vh] max-h-[500px] flex flex-col shadow-xl rounded-lg border bg-background z-50">
-      <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
+      <CardHeader className="flex flex-row items-center justify-between p-4 border-b bg-muted/50"> {/* Added subtle background */}
         <div className="flex items-center space-x-2">
           <Bot className="h-6 w-6 text-primary" />
           <CardTitle className="text-lg font-semibold">JavaPrep Assistant</CardTitle>
@@ -43,14 +43,18 @@ const ChatWindow: FC<ChatWindowProps> = ({
       </CardHeader>
       <CardContent className="flex-1 p-0 overflow-hidden">
         <ScrollArea className="h-full p-4">
-          <div ref={chatContainerRef} className="space-y-2">
+          <div ref={chatContainerRef} className="space-y-1"> {/* Reduced space-y slightly due to message mb change */}
             {messages.map((msg) => (
               <ChatMessage key={msg.id} message={msg} />
             ))}
             {isLoading && (
-               <div className="flex items-end space-x-2 mb-3 justify-start">
-                 <Bot className="h-8 w-8 text-primary self-end" />
-                 <div className="p-3 rounded-lg max-w-xs sm:max-w-md md:max-w-lg bg-card text-card-foreground rounded-bl-none border shadow-md">
+               <div className="flex items-end space-x-2 mb-4 justify-start"> {/* Matched ChatMessage mb */}
+                 <Avatar className="h-8 w-8"> {/* Used Avatar for consistency */}
+                    <AvatarFallback>
+                        <Bot className="h-5 w-5 text-primary" />
+                    </AvatarFallback>
+                 </Avatar>
+                 <div className="px-4 py-3 rounded-t-xl rounded-r-xl max-w-xs sm:max-w-md md:max-w-lg bg-card text-card-foreground border shadow-md"> {/* Matched bot bubble style */}
                     <Skeleton className="h-4 w-24 mb-1" />
                     <Skeleton className="h-3 w-16" />
                  </div>

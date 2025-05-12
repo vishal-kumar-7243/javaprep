@@ -23,7 +23,7 @@ const ChatMessage: FC<ChatMessageProps> = ({ message }) => {
   return (
     <div
       className={cn(
-        'flex items-end space-x-2 mb-3',
+        'flex items-end space-x-2 mb-4', // Increased mb slightly
         isUser ? 'justify-end' : 'justify-start'
       )}
     >
@@ -36,16 +36,16 @@ const ChatMessage: FC<ChatMessageProps> = ({ message }) => {
       )}
       <div
         className={cn(
-          'p-3 rounded-lg max-w-xs sm:max-w-md md:max-w-lg break-words shadow-md',
+          'px-4 py-3 max-w-xs sm:max-w-md md:max-w-lg break-words shadow-md', // Adjusted padding
           isUser
-            ? 'bg-primary text-primary-foreground rounded-br-none'
-            : 'bg-card text-card-foreground rounded-bl-none border'
+            ? 'bg-primary text-primary-foreground rounded-t-xl rounded-l-xl' // User bubble specific rounding
+            : 'bg-card text-card-foreground border rounded-t-xl rounded-r-xl' // Bot bubble specific rounding
         )}
       >
         <p className="text-sm">{message.text}</p>
         <p className={cn(
-            "text-xs mt-1",
-            isUser ? "text-primary-foreground/70 text-right" : "text-muted-foreground text-left"
+            "text-xs mt-1.5", // Adjusted margin top slightly
+            isUser ? "text-primary-foreground/80 text-right" : "text-muted-foreground text-left"
         )}>
             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </p>
