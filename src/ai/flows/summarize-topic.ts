@@ -52,8 +52,17 @@ const summarizeTopicFlow = ai.defineFlow(
     outputSchema: SummarizeTopicOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    // The await prompt(input) call will throw an error if the API call itself fails (e.g., 503 error).
+    // That error will propagate to the client and be caught by the try-catch in TopicContent.tsx.
+    const {output} = await prompt(input); 
+
+    if (!output) {
+      // This condition handles cases where the API call might have succeeded (e.g., 200 OK),
+      // but the model's response was empty or didn't conform to the output schema.
+      console.error('summarizeTopicFlow: AI model returned empty or non-conforming output for input:', input);
+      throw new Error('The AI model returned an unexpected response. Please try again.');
+    }
+    return output; // No longer using output! as we've checked it.
   }
 );
 
